@@ -4,9 +4,10 @@ using WebServer.Classes;
 
 namespace WebServer.Controllers
 {
-    [Produces("application/json")]
+    [Route("metal")]
     public class MetalController : Controller
     {
+        
         // GET: MetalController
         public ActionResult Index()
         {
@@ -51,7 +52,7 @@ namespace WebServer.Controllers
         // POST: MetalController/Structures
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Structures(MetalStructure structure)
+        public ActionResult Structures(MetalStructure metalStructure)
         {
             try
             {

@@ -10,7 +10,6 @@ C:\metal_project\WebServer\WebServer\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\metal_project\WebServer\WebServer\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\metal_project\WebServer\WebServer\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\metal_project\WebServer\WebServer\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\metal_project\WebServer\WebServer\obj\Debug\net6.0\WebServer.csproj.AssemblyReference.cache
 C:\metal_project\WebServer\WebServer\obj\Debug\net6.0\WebServer.GeneratedMSBuildEditorConfig.editorconfig
 C:\metal_project\WebServer\WebServer\obj\Debug\net6.0\WebServer.AssemblyInfoInputs.cache
 C:\metal_project\WebServer\WebServer\obj\Debug\net6.0\WebServer.AssemblyInfo.cs

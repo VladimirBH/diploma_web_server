@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebServer.Classes;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,13 +20,15 @@ namespace WebServer.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return id.ToString();
         }
 
         // POST api/<MetalController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public MetalStructure ProcessingOfMetalComposition (MetalStructure structure)
         {
+            
+            return structure;
         }
 
         // PUT api/<MetalController>/5

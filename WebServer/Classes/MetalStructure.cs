@@ -2,30 +2,30 @@
 {
     public class MetalStructure
     {
-        int type_furnace { set; get; }
+        public int type_furnace { set; get; }
 
-        double ag { set; get; }
+        public double ag { set; get; }
 
-        double al { set; get; }
+        public double al { set; get; }
 
-        double au { set; get; }
+        public double au { set; get; }
 
-        double ca { set; get; }
+        public double ca { set; get; }
 
-        double cr { set; get; }
+        public double cr { set; get; }
 
-        double cu { set; get; }
+        public double cu { set; get; }
 
-        double fe { set; get; }
+        public double fe { set; get; }
 
-        double ni { set; get; }
+        public double ni { set; get; }
 
-        double pb { set; get; }
+        public double pb { set; get; }
 
-        double si { set; get; }
+        public double si { set; get; }
 
-        double sn { set; get; }
+        public double sn { set; get; }
 
-        double zn { set; get; }
+        public double zn { set; get; }
     }
 }

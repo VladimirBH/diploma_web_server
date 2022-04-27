@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\diploma\\MetalProject\\WebServer\\WebServer\\WebServer.csproj": {}
+    "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj": {}
   },
   "projects": {
-    "D:\\diploma\\MetalProject\\WebServer\\WebServer\\WebServer.csproj": {
+    "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\diploma\\MetalProject\\WebServer\\WebServer\\WebServer.csproj",
+        "projectUniqueName": "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj",
         "projectName": "WebServer",
-        "projectPath": "D:\\diploma\\MetalProject\\WebServer\\WebServer\\WebServer.csproj",
+        "projectPath": "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj",
         "packagesPath": "C:\\Users\\vladi\\.nuget\\packages\\",
-        "outputPath": "D:\\diploma\\MetalProject\\WebServer\\WebServer\\obj\\",
+        "outputPath": "D:\\diploma\\diploma_web_server\\WebServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,9 +44,21 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.14.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[6.0.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

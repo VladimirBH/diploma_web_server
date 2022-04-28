@@ -1,5 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using WebServer.Services;
+using Microsoft.Extensions.Configuration;
+using WebServer.DataAccess.Repositories;
+using WebServer.DataAccess.Contracts;
 
 namespace WebServer
 {
@@ -16,7 +22,28 @@ namespace WebServer
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHostedService<GetMetallCostsService>();
+            #region Repositories
+            builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
+            #endregion
 
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "zznob.ru",
+                    ValidAudience = "http://localhost:5000/",
+                    IssuerSigningKey = new
+                    SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes
+                    ("supersecretkeyclientdontthink123"))
+                };
+            });
 
             var app = builder.Build();
 
@@ -36,6 +63,7 @@ namespace WebServer
             app.UseHsts();
 
             app.UseAuthorization();
+
 
             app.MapControllers();
 

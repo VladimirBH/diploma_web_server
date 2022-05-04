@@ -4,7 +4,7 @@ using WebServer.DataAccess.Contracts;
 
 namespace WebServer.Controllers
 {
-    [Route("api/user")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : Controller
     {
@@ -14,79 +14,38 @@ namespace WebServer.Controllers
         {
             _iuserRepository = iuserRepository;
         }
-        // GET: UserController
-        public ActionResult Index()
+        // GET: api/<UserController>
+        [HttpGet]
+        public IEnumerable<string> Get()
         {
-            return View();
+            return (IEnumerable<string>)_iuserRepository.GetAll();
         }
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
+        // GET api/<UserController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
         {
-            return View();
+            return id.ToString();
         }
 
-        // GET: UserController/Create
-        public ActionResult Create()
+        // POST api/<UserController>
+        /*[HttpPost]
+        public MetalStructure ProcessingOfMetalComposition(MetalStructure structure)
         {
-            return View();
+
+            return structure;
+        }*/
+
+        // PUT api/<UserController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
         }
 
-        // POST: UserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        // DELETE api/<UserController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

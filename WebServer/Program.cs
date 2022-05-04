@@ -3,27 +3,28 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebServer.Services;
-using Microsoft.Extensions.Configuration;
 using WebServer.DataAccess.Repositories;
 using WebServer.DataAccess.Contracts;
+using WebServer.DBContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebServer
 {
     public class Program
     {
-        public IConfiguration _configuration { get; set; }
+        private static IConfiguration Configuration { get; set; }
 
-        /*public Program(IConfiguration configuration)
+        public Program(IConfiguration configuration)
         {
             var builder = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             configuration = builder.Build();
             Configuration = configuration;
-        }*/
-        public Program(IConfiguration configuration) 
-        {
-            this._configuration = configuration;
         }
+        /*public Program(IConfiguration configuration) 
+        {
+            this.Configuration = configuration;
+        }*/
 
         public static void Main(string[] args)
         {
@@ -36,6 +37,10 @@ namespace WebServer
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHostedService<GetMetallCostsService>();
+            builder.Services.AddDbContext<ApplicationContext>(options =>
+            options.UseNpgsql(
+                Configuration["ConnectionStrings:DefaultConnection"],
+                b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
             #region Repositories
             builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddTransient<IUserRepository, UserRepository>();

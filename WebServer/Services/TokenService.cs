@@ -16,7 +16,7 @@ namespace WebServer.Services
         {
             var claims = new[] {
             new Claim(ClaimTypes.Name, user.Login),
-            new Claim(ClaimTypes.Role, user.Role),
+            new Claim(ClaimTypes.Role, user.Role.Id.ToString()),
             new Claim(ClaimTypes.NameIdentifier,
             Guid.NewGuid().ToString())
             };

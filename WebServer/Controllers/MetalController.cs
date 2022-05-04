@@ -5,7 +5,7 @@ using WebServer.Classes;
 
 namespace WebServer.Controllers
 {
-    [Route("api/metal")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class MetalController : ControllerBase
     {

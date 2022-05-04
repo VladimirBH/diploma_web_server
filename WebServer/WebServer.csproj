@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DBContext\" />
+    <Folder Include="DataAccess\Migrations\" />
   </ItemGroup>
 
 </Project>

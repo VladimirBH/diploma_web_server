@@ -2,7 +2,7 @@
 
 namespace WebServer.DataAccess.Contracts
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<Users>
     {
         bool Authorization(string login, string password);
     }

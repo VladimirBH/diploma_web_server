@@ -11,6 +11,20 @@ namespace WebServer
 {
     public class Program
     {
+        public IConfiguration _configuration { get; set; }
+
+        /*public Program(IConfiguration configuration)
+        {
+            var builder = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            configuration = builder.Build();
+            Configuration = configuration;
+        }*/
+        public Program(IConfiguration configuration) 
+        {
+            this._configuration = configuration;
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +58,7 @@ namespace WebServer
                     ("supersecretkeyclientdontthink123"))
                 };
             });
+
 
             var app = builder.Build();
 

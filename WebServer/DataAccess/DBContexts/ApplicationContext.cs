@@ -1,17 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using WebServer.DataAccess.Implementations.Entities;
 
 namespace WebServer.DBContext
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext()
+        private readonly IConfiguration configuration;
+
+        public DbSet<Users>? Users { get; set; }
+
+        public ApplicationContext(IConfiguration _configuration)
         {
             Database.EnsureCreated();
+            this.configuration = _configuration;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql();
+            //optionsBuilder.UseNpgsql(configuration["ConnectionStrings:DefaultConnection"]);
+            optionsBuilder.UseNpgsql("Host=db.jlwcfevbewaryulsslre.supabase.co;Port=6543;Database=database;Username=postgres;Password=1977213vovaFifer");
         }
     }
 }

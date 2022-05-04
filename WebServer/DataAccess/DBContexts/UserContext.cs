@@ -8,6 +8,6 @@ namespace WebServer.DataAccess.DBContexts
         public UserContext() : base()
         { }  
         
-        public DbSet<User> Users { get; set; }
+        public DbSet<Users>? Users { get; set; }
     }
 }

@@ -93,3 +93,13 @@ D:\diploma\diploma_web_server\WebServer\obj\Debug\net6.0\WebServer.dll
 D:\diploma\diploma_web_server\WebServer\obj\Debug\net6.0\ref\WebServer.dll
 D:\diploma\diploma_web_server\WebServer\obj\Debug\net6.0\WebServer.pdb
 D:\diploma\diploma_web_server\WebServer\obj\Debug\net6.0\WebServer.genruntimeconfig.cache
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\System.Drawing.Common.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\System.Windows.Extensions.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll

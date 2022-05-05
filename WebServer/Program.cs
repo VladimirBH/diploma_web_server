@@ -12,14 +12,11 @@ namespace WebServer
 {
     public class Program
     {
-        private static IConfiguration Configuration { get; set; }
+        private static IConfiguration Configuration;
 
-        public Program(IConfiguration configuration)
+        public Program()
         {
-            var builder = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-            configuration = builder.Build();
-            Configuration = configuration;
+            
         }
         /*public Program(IConfiguration configuration) 
         {
@@ -28,6 +25,10 @@ namespace WebServer
 
         public static void Main(string[] args)
         {
+            var confbuilder = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            Configuration = confbuilder.Build();
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.

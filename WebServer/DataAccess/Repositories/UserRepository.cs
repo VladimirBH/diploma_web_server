@@ -6,9 +6,13 @@ namespace WebServer.DataAccess.Repositories
 {
     public class UserRepository : GenericRepository<Users>, IUserRepository
     {
+        private readonly ApplicationContext appContext;
         public UserRepository(ApplicationContext context) : base(context)
         {
+            this.appContext = context;
         }
+
+
 
         public bool Authorization(string login, string password)
         {

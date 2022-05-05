@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using WebServer.DataAccess.Contracts;
 using WebServer.DBContext;
 
@@ -6,45 +7,47 @@ namespace WebServer.DataAccess.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly ApplicationContext _context;
+        protected readonly ApplicationContext Context;
 
         public GenericRepository(ApplicationContext context)
         {
-            _context = context;
+            Context = context;
         }
         public void Add(T entity)
         {
-            _context.Set<T>().Add(entity);
+            Context.Set<T>().Add(entity);
         }
 
         public void AddRange(IEnumerable<T> entities)
         {
-            _context.Set<T>().AddRange(entities);
+            Context.Set<T>().AddRange(entities);
         }
 
         public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
         {
-            return _context.Set<T>().Where(expression);
+            return Context.Set<T>().Where(expression);
         }
 
         public IEnumerable<T> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return Context.Set<T>().ToList();
         }
 
         public T GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+            return Context.Set<T>().Find(id);
         }
 
         public void Remove(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            Context.Set<T>().Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<T> entities)
         {
-            _context.Set<T>().RemoveRange(entities);
+            Context.Set<T>().RemoveRange(entities);
         }
+        
+        
     }
 }

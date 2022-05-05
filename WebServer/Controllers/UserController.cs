@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebServer.DataAccess.Contracts;
+using WebServer.DataAccess.Implementations.Entities;
+using WebServer.DBContext;
 
 namespace WebServer.Controllers
 {
@@ -9,23 +12,25 @@ namespace WebServer.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _iuserRepository;
-
-        public UserController(IUserRepository iuserRepository) 
+        private ApplicationContext _appContext;
+        public UserController(IUserRepository iuserRepository, ApplicationContext appContext) 
         {
             _iuserRepository = iuserRepository;
+            _appContext = appContext;
         }
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<User> Get()
         {
-            return (IEnumerable<string>)_iuserRepository.GetAll();
+            
+            return (List<User>)_iuserRepository.GetAll();
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public User Get(int id)
         {
-            return id.ToString();
+            return _iuserRepository.GetById(id);
         }
 
         // POST api/<UserController>

@@ -56,12 +56,12 @@ namespace WebServer
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "zznob.ru",
-                    ValidAudience = "http://localhost:5000/",
+                    ValidIssuer = Configuration["JWT:Issuer"],
+                    ValidAudience = Configuration["JWT:Audience"],
                     IssuerSigningKey = new
                     SymmetricSecurityKey
                     (Encoding.UTF8.GetBytes
-                    ("supersecretkeyclientdontthink123"))
+                    (Configuration["JWT:Key"]))
                 };
             });
 

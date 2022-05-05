@@ -12,7 +12,7 @@ namespace WebServer.Services
     {
         private const double EXPIRY_DURATION_MINUTES = 30;
 
-        public string BuildToken(string key, string issuer, Users user)
+        public string BuildToken(string key, string issuer, User user)
         {
             var claims = new[] {
             new Claim(ClaimTypes.Name, user.Login),

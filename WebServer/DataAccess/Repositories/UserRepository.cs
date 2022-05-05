@@ -4,12 +4,12 @@ using WebServer.DBContext;
 
 namespace WebServer.DataAccess.Repositories
 {
-    public class UserRepository : GenericRepository<Users>, IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        private readonly ApplicationContext appContext;
+        private readonly ApplicationContext _appContext;
         public UserRepository(ApplicationContext context) : base(context)
         {
-            this.appContext = context;
+            this._appContext = context;
         }
 
 

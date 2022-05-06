@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebServer.DataAccess.Contracts;
+using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
-using WebServer.DBContext;
 
 namespace WebServer.Controllers
 {
@@ -22,7 +22,6 @@ namespace WebServer.Controllers
         [HttpGet]
         public List<User> Get()
         {
-            
             return (List<User>)_iuserRepository.GetAll();
         }
 

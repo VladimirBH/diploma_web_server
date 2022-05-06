@@ -9,8 +9,6 @@ namespace WebServer.DataAccess.Implementations.Entities
         [Column("name_role")]
         [Required(ErrorMessage = "Role name is required")]
         public string RoleName { get; set; }
-
-
         public List<User> Users { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebServer.DataAccess.Implementations.Entities;
 
-namespace WebServer.DBContext
+namespace WebServer.DataAccess.DBContexts
 {
     public class ApplicationContext : DbContext
     {
@@ -11,8 +11,8 @@ namespace WebServer.DBContext
             //Database.EnsureCreated();
             //this.configuration = _configuration;
         }
-        public DbSet<User> user { get; set; }
-        public DbSet<Role> role { get; set; }
+        public DbSet<User>? Users { get; set; }
+        public DbSet<Role>? Roles { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

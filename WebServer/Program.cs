@@ -5,8 +5,8 @@ using System.Text;
 using WebServer.Services;
 using WebServer.DataAccess.Repositories;
 using WebServer.DataAccess.Contracts;
-using WebServer.DBContext;
 using Microsoft.EntityFrameworkCore;
+using WebServer.DataAccess.DBContexts;
 
 namespace WebServer
 {
@@ -45,6 +45,7 @@ namespace WebServer
             #region Repositories
             builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<IRoleRepository, RoleRepository>();
             #endregion
 
 

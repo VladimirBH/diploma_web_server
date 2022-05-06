@@ -7,15 +7,19 @@ namespace WebServer.DataAccess.Implementations.Entities
     public class User : BaseEntity
     {
         [Column("name")]
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         
         [Column("surname")]
+        [Required(ErrorMessage = "Surname is required")]
         public string Surname { get; set; }
         
         [Column("patronymic")]
+        [Required(ErrorMessage = "Patronymic is required")]
         public string Patronymic { get; set; }
         
         [Column("date_birth")]
+        [Required(ErrorMessage = "Password is required")]
         public DateTime DateBirth { get; set; }
         
         [Column("login")]
@@ -27,7 +31,7 @@ namespace WebServer.DataAccess.Implementations.Entities
         public string Password { get; set; }
 
         [Column("role_id")]
-        [Required] 
+        [Required(ErrorMessage = "Role's id is required")] 
         public int RoleId { get; set; }
         
         public Role Role { get; set; }

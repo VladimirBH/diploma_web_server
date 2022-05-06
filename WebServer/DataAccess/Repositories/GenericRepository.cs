@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using WebServer.DataAccess.Contracts;
-using WebServer.DBContext;
+using WebServer.DataAccess.DBContexts;
 
 namespace WebServer.DataAccess.Repositories
 {

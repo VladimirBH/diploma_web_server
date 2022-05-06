@@ -30,10 +30,12 @@ namespace WebServer.DataAccess.Implementations.Entities
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
+        /*[Column("role_id")]
+        [Required(ErrorMessage = "Role's id is required")] 
+        public int RoleId { get; set; }*/
+        
         [Column("role_id")]
         [Required(ErrorMessage = "Role's id is required")] 
-        public int RoleId { get; set; }
-        
         public Role Role { get; set; }
 
         /*[Column("role_id")] 

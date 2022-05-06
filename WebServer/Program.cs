@@ -84,6 +84,8 @@ namespace WebServer
 
             app.UseHsts();
 
+            app.UseAuthentication();
+            
             app.UseAuthorization();
 
 

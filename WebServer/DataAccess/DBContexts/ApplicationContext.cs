@@ -14,13 +14,12 @@ namespace WebServer.DataAccess.DBContexts
         public DbSet<User>? Users { get; set; }
         public DbSet<Role>? Roles { get; set; }
         
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
                 .HasOne(p => p.Role)
-                .WithMany(b => b.Users)
-                .HasForeignKey(t => t.RoleId);
-        }
+                .WithMany(b => b.Users);
+        }*/
         
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

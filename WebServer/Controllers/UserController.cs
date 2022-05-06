@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
@@ -33,12 +34,11 @@ namespace WebServer.Controllers
         }
 
         // POST api/<UserController>
-        /*[HttpPost]
-        public MetalStructure ProcessingOfMetalComposition(MetalStructure structure)
+        [HttpPost]
+        public string UserAuthorization(AuthClass dataAuth)
         {
-
-            return structure;
-        }*/
+            return _iuserRepository.Authorization(dataAuth);
+        }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]

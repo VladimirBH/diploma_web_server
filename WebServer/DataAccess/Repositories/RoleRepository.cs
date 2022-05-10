@@ -6,9 +6,7 @@ namespace WebServer.DataAccess.Repositories;
 
 public class RoleRepository : GenericRepository<Role>, IRoleRepository
 {
-    private readonly ApplicationContext _appContext;
-    public RoleRepository(ApplicationContext context) : base(context)
+    public RoleRepository(ApplicationContext context, IConfiguration configuration) : base(context, configuration)
     {
-        this._appContext = context;
     }
 }

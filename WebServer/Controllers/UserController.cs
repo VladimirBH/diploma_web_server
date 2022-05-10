@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
+using WebServer.Services;
 
 namespace WebServer.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : Controller
@@ -23,7 +25,7 @@ namespace WebServer.Controllers
         [HttpGet]
         public List<User> Get()
         {
-            return (List<User>)_iuserRepository.GetAll();
+            return new List<User>(_iuserRepository.GetAllWithForeignKey());
         }
 
         // GET api/<UserController>/5
@@ -32,12 +34,22 @@ namespace WebServer.Controllers
         {
             return _iuserRepository.GetById(id);
         }
-
-        // POST api/<UserController>
+        
+        // POST api/<UserController>/UserAuthorization
+        [AllowAnonymous]
         [HttpPost]
         public string UserAuthorization(AuthClass dataAuth)
         {
             return _iuserRepository.Authorization(dataAuth);
+        }
+        
+        // POST api/<UserController>/CreateUser
+        [HttpPost]
+        public void CreateUser(User user)
+        {
+            //return dataAuth.login;
+            _iuserRepository.Add(user);
+            _iuserRepository.SaveChanges();
         }
 
         // PUT api/<UserController>/5
@@ -50,6 +62,9 @@ namespace WebServer.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var user = _iuserRepository.GetById(id);
+            _iuserRepository.Remove(user);
+            _iuserRepository.SaveChanges();
         }
     }
 }

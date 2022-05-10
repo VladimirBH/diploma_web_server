@@ -2,16 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
+using WebServer.DataAccess.Implementations.Entities;
 
 namespace WebServer.DataAccess.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly ApplicationContext Context;
+        protected readonly IConfiguration Configuration;
 
-        public GenericRepository(ApplicationContext context)
+        public GenericRepository(ApplicationContext context, IConfiguration configuration)
         {
             Context = context;
+            Configuration = configuration;
         }
         public void Add(T entity)
         {
@@ -28,7 +31,7 @@ namespace WebServer.DataAccess.Repositories
             return Context.Set<T>().Where(expression);
         }
 
-        public IEnumerable<T> GetAll()
+        public List<T> GetAll()
         {
             return Context.Set<T>().ToList();
         }
@@ -47,7 +50,10 @@ namespace WebServer.DataAccess.Repositories
         {
             Context.Set<T>().RemoveRange(entities);
         }
-        
-        
+
+        public void SaveChanges()
+        {
+            Context.SaveChanges();
+        }
     }
 }

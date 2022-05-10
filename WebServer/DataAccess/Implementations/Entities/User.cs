@@ -34,15 +34,16 @@ namespace WebServer.DataAccess.Implementations.Entities
         [Required(ErrorMessage = "Role's id is required")] 
         public int RoleId { get; set; }*/
         
+
         [Column("role_id")]
         [Required(ErrorMessage = "Role's id is required")] 
-        public Role Role { get; set; }
-
+        public int RoleId { get; set; }
         /*[Column("role_id")] 
         [Required] 
-        public int RoleId { get; set; }
+        public int RoleId { get; set; }*/
         
-        [ForeignKey("role_id")]
-        public Role Role { get; set; } */
+        [ForeignKey("RoleId")]
+        public virtual Role Role { get; set; } 
+        
     }
 }

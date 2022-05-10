@@ -11,13 +11,13 @@ namespace WebServer.Services
     public class TokenService : ITokenService
     {
         private const double EXPIRY_DURATION_MINUTES = 30;
-
+        
         public string BuildToken(string key, string issuer, User user)
         {
             var claims = new[] {
             new Claim(ClaimTypes.Name, user.Login),
-            new Claim(ClaimTypes.Role, user.Role.Id.ToString()),
-            new Claim(ClaimTypes.NameIdentifier,
+            new Claim(ClaimTypes.Role, user.Role.RoleName),
+            new Claim(ClaimTypes.NameIdentifier, 
             Guid.NewGuid().ToString())
             };
 

@@ -1,4 +1,6 @@
-﻿using WebServer.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
@@ -8,38 +10,33 @@ namespace WebServer.DataAccess.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        private readonly ApplicationContext _appContext;
-        public UserRepository(ApplicationContext context) : base(context)
+        //private IConfiguration _configuration;
+        public UserRepository(ApplicationContext context, IConfiguration configuration) : base(context, configuration)
         {
-            
-            this._appContext = context;
         }
         public string Authorization(AuthClass dataAuth)
         {
-            User user = GetByLogin(dataAuth.login);
+            var user = GetByLogin(dataAuth.login, dataAuth.password);
             if (user != null)
             {
-                if (user.Password == dataAuth.password)
-                {
-                    var tokenService = new TokenService();
-                    return tokenService.BuildToken("supersecretkeyclientdontthink123", "https://localhost:7019", user);
-                }
-                else
-                {
-                    return "Невервый логин/пароль";
-                }
+                var tokenService = new TokenService();
+                return tokenService.BuildToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
             }
             else
             {
                 return "Невервый логин/пароль";
             }
-
-            throw new NotImplementedException();
         }
 
-        public User GetByLogin(string login)
+        public IIncludableQueryable<User, Role> GetAllWithForeignKey()
         {
-            return _appContext.Users.FirstOrDefault(u => u.Login == login);
+            return Context.Users.Include(x => x.Role);
+        }
+
+
+        private User GetByLogin(string login, string password)
+        {
+            return Context.Users.Include(r => r.Role).FirstOrDefault(u => (u.Login == login) && (u.Password == password));
         }
     }
 }

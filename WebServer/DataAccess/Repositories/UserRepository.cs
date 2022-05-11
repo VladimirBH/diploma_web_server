@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Dynamic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -17,9 +19,10 @@ namespace WebServer.DataAccess.Repositories
         public UserRepository(ApplicationContext context, IConfiguration configuration) : base(context, configuration)
         {
         }
-        public JsonObject Authorization(AuthClass dataAuth)
+
+        public JObject Authorization(AuthClass dataAuth)
         {
-            var jsonObject = new JsonObject();
+            dynamic jsonObject = new JObject();
             var user = GetByLogin(dataAuth.login, dataAuth.password);
             if (user != null)
             {
@@ -43,16 +46,15 @@ namespace WebServer.DataAccess.Repositories
             return tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
         }
 
-        public JObject RefreshAccessToken(string refreshToken)
+        public JObject RefreshPairTokens(string refreshToken)
         {
             var tokenService = new TokenService();
             dynamic jsonObject = new JObject();
             if (tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
             {
                 var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadToken(refreshToken);
-                var tokenS = jsonToken as JwtSecurityToken;
-                var id = tokenS?.Claims.First(claim => claim.Type == "Name").Value;
+                var jsonToken = handler.ReadJwtToken(refreshToken);
+                var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
                 if (id == null)
                 {
                     jsonObject.Error = "Доступ запрещен";
@@ -60,8 +62,11 @@ namespace WebServer.DataAccess.Repositories
                 }
 
                 var user = GetById(int.Parse(id));
-                jsonObject.AccessToken = GetAccessToken(user);
-                jsonObject.ExpiredIn = GetAccessToken(user);
+                user = GetByLogin(user.Login, user.Password);
+                jsonObject.AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
+                jsonObject.RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
+                jsonObject.ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]);
+                jsonObject.ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]);
                 return jsonObject;
             }
             else

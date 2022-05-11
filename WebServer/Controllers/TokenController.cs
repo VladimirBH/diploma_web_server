@@ -6,7 +6,6 @@ using WebServer.DataAccess.Contracts;
 
 namespace WebServer.Controllers;
 
-[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class TokenController
@@ -16,10 +15,10 @@ public class TokenController
     {
         _iuserRepository = iuserRepository;
     }
-    // GET: api/<TokenController>
-    [HttpPost]
+    // GET: api/<TokenController>?refreshToken=
+    [HttpGet]
     public JObject RefreshAccess(string refreshToken)
     {
-        return _iuserRepository.RefreshAccessToken(refreshToken);
+        return _iuserRepository.RefreshPairTokens(refreshToken);
     }
 }

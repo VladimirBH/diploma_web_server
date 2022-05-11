@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "QM88+G6h5wAG3JE1Q+f/4N2gxPjWbj/LFHw5YCuoga1t2FYXVkLZH+ld0G0+ZBAHHvj/h2zumxH0kBG0SClkrQ==",
+  "dgSpecHash": "9G+45xduI9ATl4ycGI07DuSiqq3p4fw1vsw4veSPnWlOkqsqkIg6LxaaT9NJZb3D5KvxWUYbYqqAIUc8zxRglg==",
   "success": true,
   "projectFilePath": "D:\\diploma\\VladimirBH\\diploma_web_server\\WebServer\\WebServer.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\vladi\\.nuget\\packages\\json.net\\1.0.33\\json.net.1.0.33.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -52,6 +53,7 @@
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\vladi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\npgsql\\6.0.4\\npgsql.6.0.4.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\6.0.4\\npgsql.entityframeworkcore.postgresql.6.0.4.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",

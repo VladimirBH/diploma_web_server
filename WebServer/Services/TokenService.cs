@@ -11,16 +11,29 @@ namespace WebServer.Services
     public class TokenService : ITokenService
     {
         private const double EXPIRY_DURATION_MINUTES = 30;
-        
-        public string BuildToken(string key, string issuer, User user)
+        private const double EXPIRY_DURATION_DAYS = 10;
+        public string BuildAccessToken(string key, string issuer, User user)
         {
             var claims = new[] {
-            new Claim(ClaimTypes.Name, user.Login),
-            new Claim(ClaimTypes.Role, user.Role.RoleName),
-            new Claim(ClaimTypes.NameIdentifier, 
-            Guid.NewGuid().ToString())
+                    new Claim(ClaimTypes.Name, user.Login),
+                    new Claim(ClaimTypes.Role, user.Role.RoleName),
+                    new Claim(ClaimTypes.NameIdentifier, 
+                        Guid.NewGuid().ToString())
+                };
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
+                expires: DateTime.Now.AddMinutes(EXPIRY_DURATION_MINUTES), signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+        }
+        
+        public string BuildRefreshToken(string key, string issuer, User user)
+        {
+            var claims = new[] {
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, 
+                    Guid.NewGuid().ToString())
             };
-
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebServer.Classes;
@@ -9,7 +10,7 @@ using WebServer.Services;
 
 namespace WebServer.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : Controller
@@ -38,7 +39,7 @@ namespace WebServer.Controllers
         // POST api/<UserController>/UserAuthorization
         [AllowAnonymous]
         [HttpPost]
-        public string UserAuthorization(AuthClass dataAuth)
+        public JsonObject UserAuthorization(AuthClass dataAuth)
         {
             return _iuserRepository.Authorization(dataAuth);
         }

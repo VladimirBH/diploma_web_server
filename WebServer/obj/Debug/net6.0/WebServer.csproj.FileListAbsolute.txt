@@ -205,3 +205,5 @@ D:\diploma\VladimirBH\diploma_web_server\WebServer\obj\Debug\net6.0\ref\WebServe
 D:\diploma\VladimirBH\diploma_web_server\WebServer\obj\Debug\net6.0\WebServer.pdb
 D:\diploma\VladimirBH\diploma_web_server\WebServer\obj\Debug\net6.0\WebServer.genruntimeconfig.cache
 D:\diploma\VladimirBH\diploma_web_server\WebServer\obj\Debug\net6.0\refint\WebServer.dll
+D:\diploma\VladimirBH\diploma_web_server\WebServer\bin\Debug\net6.0\Json.Net.dll
+D:\diploma\VladimirBH\diploma_web_server\WebServer\bin\Debug\net6.0\Newtonsoft.Json.dll

@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json.Nodes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Newtonsoft.Json.Linq;
 using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
@@ -14,17 +17,57 @@ namespace WebServer.DataAccess.Repositories
         public UserRepository(ApplicationContext context, IConfiguration configuration) : base(context, configuration)
         {
         }
-        public string Authorization(AuthClass dataAuth)
+        public JsonObject Authorization(AuthClass dataAuth)
         {
+            var jsonObject = new JsonObject();
             var user = GetByLogin(dataAuth.login, dataAuth.password);
             if (user != null)
             {
                 var tokenService = new TokenService();
-                return tokenService.BuildToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
+                jsonObject.Add("AccessToken", tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
+                jsonObject.Add("RefreshToken", tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
+                jsonObject.Add("ExpiredInAccessToken", int.Parse(Configuration["JWT:AccessTokenLifeTime"]));
+                jsonObject.Add("ExpiredInRefreshToken", int.Parse(Configuration["JWT:RefreshTokenLifeTime"]));
+                return jsonObject;
             }
             else
             {
-                return "Невервый логин/пароль";
+                jsonObject.Add("Error", "Неверный логин/пароль");
+                return jsonObject;
+            }
+        }
+
+        private string GetAccessToken(User user)
+        {
+            var tokenService = new TokenService();
+            return tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
+        }
+
+        public JObject RefreshAccessToken(string refreshToken)
+        {
+            var tokenService = new TokenService();
+            dynamic jsonObject = new JObject();
+            if (tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(refreshToken);
+                var tokenS = jsonToken as JwtSecurityToken;
+                var id = tokenS?.Claims.First(claim => claim.Type == "Name").Value;
+                if (id == null)
+                {
+                    jsonObject.Error = "Доступ запрещен";
+                    return jsonObject;
+                }
+
+                var user = GetById(int.Parse(id));
+                jsonObject.AccessToken = GetAccessToken(user);
+                jsonObject.ExpiredIn = GetAccessToken(user);
+                return jsonObject;
+            }
+            else
+            {
+                jsonObject.Error = "Доступ запрещен";
+                return jsonObject;
             }
         }
 

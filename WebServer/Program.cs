@@ -6,6 +6,7 @@ using WebServer.Services;
 using WebServer.DataAccess.Repositories;
 using WebServer.DataAccess.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using WebServer.DataAccess.DBContexts;
 
 namespace WebServer
@@ -65,7 +66,7 @@ namespace WebServer
                     (Configuration["JWT:Key"]))
                 };
             });
-
+            builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var app = builder.Build();
 

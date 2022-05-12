@@ -8,8 +8,8 @@ namespace WebServer.DataAccess.Contracts
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        JObject Authorization(AuthClass dataAuth);
+        JsonObject Authorization(AuthClass dataAuth);
         IIncludableQueryable<User, Role> GetAllWithForeignKey();
-        JObject RefreshPairTokens(string refreshToken);
+        JsonObject RefreshPairTokens(string refreshToken);
     }
 }

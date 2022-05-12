@@ -40,7 +40,7 @@ namespace WebServer.Controllers
         // POST api/<UserController>/UserAuthorization
         [AllowAnonymous]
         [HttpPost]
-        public JObject UserAuthorization(AuthClass dataAuth)
+        public JsonObject UserAuthorization(AuthClass dataAuth)
         {
             return _iuserRepository.Authorization(dataAuth);
         }

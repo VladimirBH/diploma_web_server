@@ -20,9 +20,9 @@ namespace WebServer.DataAccess.Repositories
         {
         }
 
-        public JObject Authorization(AuthClass dataAuth)
+        public JsonObject Authorization(AuthClass dataAuth)
         {
-            dynamic jsonObject = new JObject();
+            dynamic jsonObject = new JsonObject();
             var user = GetByLogin(dataAuth.login, dataAuth.password);
             if (user != null)
             {
@@ -46,10 +46,11 @@ namespace WebServer.DataAccess.Repositories
             return tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
         }
 
-        public JObject RefreshPairTokens(string refreshToken)
+        public JsonObject RefreshPairTokens(string refreshToken)
         {
+            
             var tokenService = new TokenService();
-            dynamic jsonObject = new JObject();
+            var jsonObject = new JsonObject();
             if (tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
             {
                 var handler = new JwtSecurityTokenHandler();
@@ -57,21 +58,25 @@ namespace WebServer.DataAccess.Repositories
                 var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
                 if (id == null)
                 {
-                    jsonObject.Error = "Доступ запрещен";
+                    jsonObject.Add("Error", "1 Доступ запрещен");
                     return jsonObject;
                 }
 
                 var user = GetById(int.Parse(id));
                 user = GetByLogin(user.Login, user.Password);
-                jsonObject.AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
+                /*jsonObject.AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
                 jsonObject.RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
                 jsonObject.ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]);
-                jsonObject.ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]);
+                jsonObject.ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]);*/
+                jsonObject.Add("AccessToken", tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
+                jsonObject.Add("RefreshToken", tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
+                jsonObject.Add("ExpiredInAccessToken", int.Parse(Configuration["JWT:AccessTokenLifeTime"]));
+                jsonObject.Add("ExpiredInRefreshToken", int.Parse(Configuration["JWT:RefreshTokenLifeTime"]));
                 return jsonObject;
             }
             else
             {
-                jsonObject.Error = "Доступ запрещен";
+                jsonObject.Add("Error", "2 Доступ запрещен");
                 return jsonObject;
             }
         }
@@ -86,5 +91,7 @@ namespace WebServer.DataAccess.Repositories
         {
             return Context.Users.Include(r => r.Role).FirstOrDefault(u => (u.Login == login) && (u.Password == password));
         }
+        
+        
     }
 }

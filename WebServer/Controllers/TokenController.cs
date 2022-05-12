@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebServer.DataAccess.Contracts;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
+
 namespace WebServer.Controllers;
 
 [Authorize]
@@ -18,14 +20,10 @@ public class TokenController
     }
     // GET: api/<TokenController>?refreshToken=
     [HttpGet]
-    public IActionResult RefreshAccess()
+    public JsonDocument RefreshAccess()
     {
         var httpContext = new HttpContextAccessor();
-        
         var refreshToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
-        Console.WriteLine(refreshToken);
-        return new ObjectResult(_iuserRepository.RefreshPairTokens(refreshToken));
-        
-        //return new ObjectResult(refreshToken);
+        return _iuserRepository.RefreshPairTokens(refreshToken);
     }
 }

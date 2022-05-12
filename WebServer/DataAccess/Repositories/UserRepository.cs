@@ -1,56 +1,53 @@
-﻿using System.Dynamic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using Newtonsoft.Json.Linq;
 using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
 using WebServer.Services;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace WebServer.DataAccess.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        //private IConfiguration _configuration;
         public UserRepository(ApplicationContext context, IConfiguration configuration) : base(context, configuration)
         {
         }
-
-        public JsonObject Authorization(AuthClass dataAuth)
+        public JsonDocument Authorization(AuthClass dataAuth)
         {
-            dynamic jsonObject = new JsonObject();
             var user = GetByLogin(dataAuth.login, dataAuth.password);
             if (user != null)
             {
-                var tokenService = new TokenService();
-                jsonObject.Add("AccessToken", tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
-                jsonObject.Add("RefreshToken", tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
-                jsonObject.Add("ExpiredInAccessToken", int.Parse(Configuration["JWT:AccessTokenLifeTime"]));
-                jsonObject.Add("ExpiredInRefreshToken", int.Parse(Configuration["JWT:RefreshTokenLifeTime"]));
-                return jsonObject;
+                var tokenService = new TokenService(Configuration);
+                var tokenPair = new TokenPair
+                {
+                    AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
+                    RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
+                    ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
+                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"])
+                };
+                var jsonString = JsonConvert.SerializeObject(tokenPair);
+                var json = JsonDocument.Parse(jsonString);
+                return json;
             }
             else
             {
-                jsonObject.Add("Error", "Неверный логин/пароль");
+                var jsonObject = JsonDocument.Parse("{ \"Error\": \"Неверный логин/пароль\" }");
                 return jsonObject;
             }
         }
 
-        private string GetAccessToken(User user)
+        public JsonDocument RefreshPairTokens(string refreshToken)
         {
-            var tokenService = new TokenService();
-            return tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
-        }
-
-        public JsonObject RefreshPairTokens(string refreshToken)
-        {
-            
-            var tokenService = new TokenService();
-            var jsonObject = new JsonObject();
+            var tokenService = new TokenService(Configuration);
             if (tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
             {
                 var handler = new JwtSecurityTokenHandler();
@@ -58,25 +55,26 @@ namespace WebServer.DataAccess.Repositories
                 var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
                 if (id == null)
                 {
-                    jsonObject.Add("Error", "1 Доступ запрещен");
+                    var jsonObject = JsonDocument.Parse("{ \"Error\": \"Доступ запрещен\" }");
                     return jsonObject;
                 }
 
                 var user = GetById(int.Parse(id));
                 user = GetByLogin(user.Login, user.Password);
-                /*jsonObject.AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
-                jsonObject.RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user);
-                jsonObject.ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]);
-                jsonObject.ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]);*/
-                jsonObject.Add("AccessToken", tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
-                jsonObject.Add("RefreshToken", tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user));
-                jsonObject.Add("ExpiredInAccessToken", int.Parse(Configuration["JWT:AccessTokenLifeTime"]));
-                jsonObject.Add("ExpiredInRefreshToken", int.Parse(Configuration["JWT:RefreshTokenLifeTime"]));
-                return jsonObject;
+                var tokenPair = new TokenPair
+                {
+                    AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
+                    RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
+                    ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
+                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"])
+                };
+                var jsonString = JsonConvert.SerializeObject(tokenPair);
+                var json = JsonDocument.Parse(jsonString);
+                return json;
             }
             else
             {
-                jsonObject.Add("Error", "2 Доступ запрещен");
+                var jsonObject = JsonDocument.Parse("{ \"Error\": \"Доступ запрещен\" }");
                 return jsonObject;
             }
         }

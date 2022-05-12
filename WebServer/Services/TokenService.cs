@@ -10,8 +10,12 @@ namespace WebServer.Services
 {
     public class TokenService : ITokenService
     {
-        private const double EXPIRY_DURATION_MINUTES = 30;
-        private const double EXPIRY_DURATION_DAYS = 10;
+        private readonly IConfiguration Configuration;
+        public TokenService(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public string BuildAccessToken(string key, string issuer, User user)
         {
             var claims = new[] {
@@ -23,7 +27,7 @@ namespace WebServer.Services
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
-                expires: DateTime.Now.AddMinutes(EXPIRY_DURATION_MINUTES), signingCredentials: credentials);
+                expires: DateTime.Now.AddSeconds(int.Parse(Configuration["JWT:AccessTokenLifeTime"])), signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
         
@@ -37,7 +41,7 @@ namespace WebServer.Services
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
-                expires: DateTime.Now.AddMinutes(EXPIRY_DURATION_MINUTES), signingCredentials: credentials);
+                expires: DateTime.Now.AddSeconds(int.Parse(Configuration["JWT:RefreshTokenLifeTime"])), signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
         public bool IsTokenValid(string key, string issuer, string token)

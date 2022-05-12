@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore.Query;
 using Newtonsoft.Json.Linq;
 using WebServer.Classes;
@@ -8,8 +9,8 @@ namespace WebServer.DataAccess.Contracts
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        JsonObject Authorization(AuthClass dataAuth);
+        JsonDocument Authorization(AuthClass dataAuth);
         IIncludableQueryable<User, Role> GetAllWithForeignKey();
-        JsonObject RefreshPairTokens(string refreshToken);
+        JsonDocument RefreshPairTokens(string refreshToken);
     }
 }

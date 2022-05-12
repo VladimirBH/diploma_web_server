@@ -1,13 +1,12 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
-using WebServer.Services;
 
 namespace WebServer.Controllers
 {
@@ -37,10 +36,10 @@ namespace WebServer.Controllers
             return _iuserRepository.GetById(id);
         }
         
-        // POST api/<UserController>/UserAuthorization
+        // POST api/<UserController>/SignIn
         [AllowAnonymous]
         [HttpPost]
-        public JsonObject UserAuthorization(AuthClass dataAuth)
+        public ActionResult<JsonDocument> SignIn(AuthClass dataAuth)
         {
             return _iuserRepository.Authorization(dataAuth);
         }

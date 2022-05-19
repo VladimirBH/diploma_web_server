@@ -7,6 +7,7 @@ using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
+using WebServer.Exceptions;
 
 namespace WebServer.Controllers
 {
@@ -41,7 +42,14 @@ namespace WebServer.Controllers
         [HttpPost]
         public ActionResult<JsonDocument> SignIn(AuthClass dataAuth)
         {
-            return _iuserRepository.Authorization(dataAuth);
+            try
+            {
+                return _iuserRepository.Authorization(dataAuth);
+            }
+            catch (UserException ex)
+            {
+                return StatusCode(403);
+            }
         }
         
         // POST api/<UserController>/CreateUser

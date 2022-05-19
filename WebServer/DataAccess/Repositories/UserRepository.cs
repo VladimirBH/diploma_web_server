@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WebServer.Exceptions;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace WebServer.DataAccess.Repositories
@@ -32,7 +33,8 @@ namespace WebServer.DataAccess.Repositories
                     AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
                     RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
                     ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
-                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"])
+                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]),
+                    IdRole = user.RoleId
                 };
                 var jsonString = JsonConvert.SerializeObject(tokenPair);
                 var json = JsonDocument.Parse(jsonString);
@@ -40,8 +42,9 @@ namespace WebServer.DataAccess.Repositories
             }
             else
             {
-                var jsonObject = JsonDocument.Parse("{ \"Error\": \"Неверный логин/пароль\" }");
-                return jsonObject;
+                //var jsonObject = JsonDocument.Parse("{ \"Error\": \"Неверный логин/пароль\" }");
+                //return jsonObject;
+                throw new UserException("Unforbidden");
             }
         }
 
@@ -55,8 +58,7 @@ namespace WebServer.DataAccess.Repositories
                 var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
                 if (id == null)
                 {
-                    var jsonObject = JsonDocument.Parse("{ \"Error\": \"Доступ запрещен\" }");
-                    return jsonObject;
+                    throw new UserException("Unforbidden");
                 }
 
                 var user = GetById(int.Parse(id));
@@ -66,7 +68,8 @@ namespace WebServer.DataAccess.Repositories
                     AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
                     RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
                     ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
-                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"])
+                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]),
+                    IdRole = user.RoleId
                 };
                 var jsonString = JsonConvert.SerializeObject(tokenPair);
                 var json = JsonDocument.Parse(jsonString);
@@ -74,8 +77,7 @@ namespace WebServer.DataAccess.Repositories
             }
             else
             {
-                var jsonObject = JsonDocument.Parse("{ \"Error\": \"Доступ запрещен\" }");
-                return jsonObject;
+                throw new UserException("Unforbidden");
             }
         }
 

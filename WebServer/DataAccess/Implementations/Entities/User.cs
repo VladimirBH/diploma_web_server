@@ -49,6 +49,7 @@ namespace WebServer.DataAccess.Implementations.Entities
 }
 public class TokenPair
 {
+    public int IdRole { set; get; }
     public string AccessToken { set; get; }
     public string RefreshToken { set; get; }
     public int ExpiredInAccessToken { set; get; }

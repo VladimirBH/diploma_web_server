@@ -2,10 +2,17 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
+<<<<<<< HEAD
 /modules.xml
 /projectSettingsUpdater.xml
 /.idea.WebServer.iml
 /contentModel.xml
+=======
+/contentModel.xml
+/projectSettingsUpdater.xml
+/.idea.WebServer.iml
+/modules.xml
+>>>>>>> dd35eaf (rider)
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files

@@ -11,7 +11,7 @@ using WebServer.Exceptions;
 
 namespace WebServer.Controllers
 {
-    [Authorize (Roles = "admin")]
+    //[Authorize (Roles = "admin")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : Controller

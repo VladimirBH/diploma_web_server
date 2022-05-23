@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ICRP8\\RiderProjects\\diploma_web_server\\WebServer\\WebServer.csproj": {}
+    "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ICRP8\\RiderProjects\\diploma_web_server\\WebServer\\WebServer.csproj": {
+    "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ICRP8\\RiderProjects\\diploma_web_server\\WebServer\\WebServer.csproj",
+        "projectUniqueName": "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj",
         "projectName": "WebServer",
-        "projectPath": "C:\\Users\\ICRP8\\RiderProjects\\diploma_web_server\\WebServer\\WebServer.csproj",
-        "packagesPath": "C:\\Users\\ICRP8\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ICRP8\\RiderProjects\\diploma_web_server\\WebServer\\obj\\",
+        "projectPath": "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj",
+        "packagesPath": "C:\\Users\\vladi\\.nuget\\packages\\",
+        "outputPath": "D:\\diploma\\diploma_web_server\\WebServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ICRP8\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vladi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

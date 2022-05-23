@@ -30,28 +30,12 @@ namespace WebServer.DataAccess.Implementations.Entities
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
-        /*[Column("role_id")]
-        [Required(ErrorMessage = "Role's id is required")] 
-        public int RoleId { get; set; }*/
-        
-
         [Column("role_id")]
         [Required(ErrorMessage = "Role's id is required")] 
         public int RoleId { get; set; }
-        /*[Column("role_id")] 
-        [Required] 
-        public int RoleId { get; set; }*/
-        
+
         [ForeignKey("RoleId")]
-        public virtual Role Role { get; set; } 
+        public Role? Role { get; set; } 
         
     }
-}
-public class TokenPair
-{
-    public int IdRole { set; get; }
-    public string AccessToken { set; get; }
-    public string RefreshToken { set; get; }
-    public int ExpiredInAccessToken { set; get; }
-    public int ExpiredInRefreshToken { set; get; }
 }

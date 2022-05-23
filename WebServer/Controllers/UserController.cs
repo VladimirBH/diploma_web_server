@@ -11,7 +11,7 @@ using WebServer.Exceptions;
 
 namespace WebServer.Controllers
 {
-    //[Authorize (Roles = "admin")]
+    [Authorize (Roles = "admin")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : Controller
@@ -23,6 +23,7 @@ namespace WebServer.Controllers
             _iuserRepository = iuserRepository;
             _appContext = appContext;
         }
+        
         // GET: api/<UserController>
         [HttpGet]
         public List<User> Get()
@@ -30,11 +31,31 @@ namespace WebServer.Controllers
             return new List<User>(_iuserRepository.GetAllWithForeignKey());
         }
 
+
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public User Get(int id)
         {
             return _iuserRepository.GetById(id);
+        }
+        
+        
+        // GET api/<UserController>/5
+        [AllowAnonymous]
+        [Authorize]
+        [HttpGet]
+        public ActionResult<JsonDocument> GetCurrentUserInfo()
+        {
+            try
+            {
+                var httpContext = new HttpContextAccessor();
+                var refreshToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
+                return _iuserRepository.GetCurrentUserInfo(refreshToken);
+            }
+            catch (UserException ex)
+            {
+                return StatusCode(401);
+            }
         }
         
         // POST api/<UserController>/SignIn
@@ -56,7 +77,6 @@ namespace WebServer.Controllers
         [HttpPost]
         public void CreateUser(User user)
         {
-            //return dataAuth.login;
             _iuserRepository.Add(user);
             _iuserRepository.SaveChanges();
         }

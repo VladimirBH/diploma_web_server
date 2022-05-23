@@ -1,6 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text.Json.Nodes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using WebServer.Classes;
@@ -9,11 +8,8 @@ using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
 using WebServer.Services;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WebServer.Exceptions;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace WebServer.DataAccess.Repositories
 {
@@ -34,7 +30,8 @@ namespace WebServer.DataAccess.Repositories
                     RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
                     ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
                     ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]),
-                    IdRole = user.RoleId
+                    IdRole = user.RoleId,
+                    CreationDateTime = DateTime.Now
                 };
                 var jsonString = JsonConvert.SerializeObject(tokenPair);
                 var json = JsonDocument.Parse(jsonString);
@@ -42,13 +39,11 @@ namespace WebServer.DataAccess.Repositories
             }
             else
             {
-                //var jsonObject = JsonDocument.Parse("{ \"Error\": \"Неверный логин/пароль\" }");
-                //return jsonObject;
                 throw new UserException("Unforbidden");
             }
         }
 
-        public JsonDocument RefreshPairTokens(string refreshToken)
+        private int GetUserIdFromRefreshToken(string refreshToken)
         {
             var tokenService = new TokenService(Configuration);
             if (tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
@@ -58,27 +53,34 @@ namespace WebServer.DataAccess.Repositories
                 var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
                 if (id == null)
                 {
-                    throw new UserException("Unforbidden");
+                    throw new UserException("Unauthorized");
                 }
 
-                var user = GetById(int.Parse(id));
-                user = GetByLogin(user.Login, user.Password);
-                var tokenPair = new TokenPair
-                {
-                    AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
-                    RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
-                    ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
-                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]),
-                    IdRole = user.RoleId
-                };
-                var jsonString = JsonConvert.SerializeObject(tokenPair);
-                var json = JsonDocument.Parse(jsonString);
-                return json;
+                return int.Parse(id);
             }
             else
             {
-                throw new UserException("Unforbidden");
+                throw new UserException("Unauthorized");
             }
+        }
+
+        public JsonDocument RefreshPairTokens(string refreshToken)
+        {
+            var tokenService = new TokenService(Configuration);
+            var user = GetById(GetUserIdFromRefreshToken(refreshToken));
+            user = GetByLogin(user.Login, user.Password);
+            var tokenPair = new TokenPair
+            {
+                AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
+                RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
+                ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
+                ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]),
+                IdRole = user.RoleId,
+                CreationDateTime = DateTime.Now
+            };
+            var jsonString = JsonConvert.SerializeObject(tokenPair);
+            var json = JsonDocument.Parse(jsonString);
+            return json;
         }
 
         public IIncludableQueryable<User, Role> GetAllWithForeignKey()
@@ -91,7 +93,12 @@ namespace WebServer.DataAccess.Repositories
         {
             return Context.Users.Include(r => r.Role).FirstOrDefault(u => (u.Login == login) && (u.Password == password));
         }
-        
-        
+
+        public JsonDocument GetCurrentUserInfo(string refreshToken)
+        {
+            var jsonString = JsonConvert.SerializeObject(Context.Users.Include(r => r.Role).FirstOrDefault(u => u.Id == GetUserIdFromRefreshToken(refreshToken)));
+            var json = JsonDocument.Parse(jsonString);
+            return json;
+        }
     }
 }

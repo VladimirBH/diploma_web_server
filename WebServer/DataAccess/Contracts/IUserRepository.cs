@@ -12,5 +12,6 @@ namespace WebServer.DataAccess.Contracts
         JsonDocument Authorization(AuthClass dataAuth);
         IIncludableQueryable<User, Role> GetAllWithForeignKey();
         JsonDocument RefreshPairTokens(string refreshToken);
+        JsonDocument GetCurrentUserInfo(string refreshToken);
     }
 }

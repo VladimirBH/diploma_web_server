@@ -9,9 +9,9 @@ namespace WebServer.DataAccess.Contracts
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        JsonDocument Authorization(AuthClass dataAuth);
+        TokenPair Authorization(AuthClass dataAuth);
         IIncludableQueryable<User, Role> GetAllWithForeignKey();
-        JsonDocument RefreshPairTokens(string refreshToken);
-        JsonDocument GetCurrentUserInfo(string refreshToken);
+        TokenPair RefreshPairTokens(string refreshToken);
+        User GetCurrentUserInfo(string refreshToken);
     }
 }

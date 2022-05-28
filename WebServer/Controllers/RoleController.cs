@@ -26,7 +26,7 @@ public class RoleController
     public List<Role> Get()
     {
 
-        return (List<Role>)_iroleRepository.GetAll();
+        return _iroleRepository.GetAll();
     }
 
     // GET api/<UserController>/5

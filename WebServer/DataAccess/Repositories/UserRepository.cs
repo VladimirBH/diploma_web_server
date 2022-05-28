@@ -18,7 +18,7 @@ namespace WebServer.DataAccess.Repositories
         public UserRepository(ApplicationContext context, IConfiguration configuration) : base(context, configuration)
         {
         }
-        public JsonDocument Authorization(AuthClass dataAuth)
+        public TokenPair Authorization(AuthClass dataAuth)
         {
             var user = GetByLogin(dataAuth.login, dataAuth.password);
             if (user != null)
@@ -33,9 +33,7 @@ namespace WebServer.DataAccess.Repositories
                     IdRole = user.RoleId,
                     CreationDateTime = DateTime.Now
                 };
-                var jsonString = JsonConvert.SerializeObject(tokenPair);
-                var json = JsonDocument.Parse(jsonString);
-                return json;
+                return tokenPair;
             }
             else
             {
@@ -64,7 +62,7 @@ namespace WebServer.DataAccess.Repositories
             }
         }
 
-        public JsonDocument RefreshPairTokens(string refreshToken)
+        public TokenPair RefreshPairTokens(string refreshToken)
         {
             var tokenService = new TokenService(Configuration);
             var user = GetById(GetUserIdFromRefreshToken(refreshToken));
@@ -78,9 +76,7 @@ namespace WebServer.DataAccess.Repositories
                 IdRole = user.RoleId,
                 CreationDateTime = DateTime.Now
             };
-            var jsonString = JsonConvert.SerializeObject(tokenPair);
-            var json = JsonDocument.Parse(jsonString);
-            return json;
+            return tokenPair;
         }
 
         public IIncludableQueryable<User, Role> GetAllWithForeignKey()
@@ -94,11 +90,10 @@ namespace WebServer.DataAccess.Repositories
             return Context.Users.Include(r => r.Role).FirstOrDefault(u => (u.Login == login) && (u.Password == password));
         }
 
-        public JsonDocument GetCurrentUserInfo(string refreshToken)
+        public User GetCurrentUserInfo(string refreshToken)
         {
-            var jsonString = JsonConvert.SerializeObject(Context.Users.Include(r => r.Role).FirstOrDefault(u => u.Id == GetUserIdFromRefreshToken(refreshToken)));
-            var json = JsonDocument.Parse(jsonString);
-            return json;
+            return Context.Users.Include(r => r.Role)
+                .FirstOrDefault(u => u.Id == GetUserIdFromRefreshToken(refreshToken));
         }
     }
 }

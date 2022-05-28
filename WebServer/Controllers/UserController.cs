@@ -2,6 +2,7 @@
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
@@ -26,17 +27,21 @@ namespace WebServer.Controllers
         
         // GET: api/<UserController>
         [HttpGet]
-        public List<User> Get()
+        public ActionResult<JsonDocument> Get()
         {
-            return new List<User>(_iuserRepository.GetAllWithForeignKey());
+            var jsonString = JsonConvert.SerializeObject(_iuserRepository.GetAllWithForeignKey());
+            var json = JsonDocument.Parse(jsonString);
+            return json;
         }
 
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public User Get(int id)
+        public ActionResult<JsonDocument> Get(int id)
         {
-            return _iuserRepository.GetById(id);
+            var jsonString = JsonConvert.SerializeObject(_iuserRepository.GetById(id));
+            var json = JsonDocument.Parse(jsonString);
+            return json;
         }
         
         
@@ -50,7 +55,9 @@ namespace WebServer.Controllers
             {
                 var httpContext = new HttpContextAccessor();
                 var refreshToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
-                return _iuserRepository.GetCurrentUserInfo(refreshToken);
+                var jsonString = JsonConvert.SerializeObject(_iuserRepository.GetCurrentUserInfo(refreshToken));
+                var json = JsonDocument.Parse(jsonString);
+                return json;
             }
             catch (UserException ex)
             {
@@ -65,7 +72,9 @@ namespace WebServer.Controllers
         {
             try
             {
-                return _iuserRepository.Authorization(dataAuth);
+                var jsonString = JsonConvert.SerializeObject(_iuserRepository.Authorization(dataAuth));
+                var json = JsonDocument.Parse(jsonString);
+                return json;
             }
             catch (UserException ex)
             {

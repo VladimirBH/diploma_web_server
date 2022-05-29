@@ -51,6 +51,11 @@ namespace WebServer.DataAccess.Repositories
             Context.Set<T>().RemoveRange(entities);
         }
 
+        public void Update(T entity)
+        {
+            Context.Set<T>().Update(entity);
+        }
+
         public void SaveChanges()
         {
             Context.SaveChanges();

@@ -46,7 +46,6 @@ namespace WebServer.Controllers
         
         
         // GET api/<UserController>/5
-        [AllowAnonymous]
         [Authorize]
         [HttpGet]
         public ActionResult<JsonDocument> GetCurrentUserInfo()
@@ -92,8 +91,10 @@ namespace WebServer.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(User user)
         {
+            _iuserRepository.Update(user);
+            _iuserRepository.SaveChanges();
         }
 
         // DELETE api/<UserController>/5

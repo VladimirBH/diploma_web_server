@@ -1,6 +1,9 @@
+using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
@@ -8,6 +11,7 @@ using WebServer.DataAccess.Implementations.Entities;
 
 namespace WebServer.Controllers;
 
+[Authorize (Roles = "admin")]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class RoleController
@@ -23,17 +27,20 @@ public class RoleController
 
     // GET: api/<UserController>
     [HttpGet]
-    public List<Role> Get()
+    public ActionResult<JsonDocument> Get()
     {
-
-        return _iroleRepository.GetAll();
+        var jsonString = JsonConvert.SerializeObject(_iroleRepository.GetAll());
+        var json = JsonDocument.Parse(jsonString);
+        return json;
     }
 
     // GET api/<UserController>/5
     [HttpGet("{id}")]
-    public Role Get(int id)
+    public ActionResult<JsonDocument> Get(int id)
     {
-        return _iroleRepository.GetById(id);
+        var jsonString = JsonConvert.SerializeObject(_iroleRepository.GetById(id));
+        var json = JsonDocument.Parse(jsonString);
+        return json;
     }
 
     // POST api/<UserController>
@@ -44,16 +51,26 @@ public class RoleController
         return structure;
     }*/
 
+    [HttpPost]
+    public void CreateRole(Role role)
+    {
+        _iroleRepository.Add(role);
+    }
+
     // PUT api/<UserController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public void Put(Role role)
     {
+        _iroleRepository.Update(role);
+        _iroleRepository.SaveChanges();
     }
 
     // DELETE api/<UserController>/5
     [HttpDelete("{id}")]
     public void Delete(int id)
     {
+        _iroleRepository.Remove(_iroleRepository.GetById(id));
+        _iroleRepository.SaveChanges();
     }
 
 }

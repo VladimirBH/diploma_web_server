@@ -9,8 +9,5 @@ namespace WebServer.DataAccess.Implementations.Entities
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        
-        [Column("creation_date")]
-        public DateTime CreationDate { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace WebServer.DataAccess.Contracts
         IIncludableQueryable<User, Role> GetAllWithForeignKey();
         TokenPair RefreshPairTokens(string refreshToken);
         User GetCurrentUserInfo(string refreshToken);
+        int GetUserIdFromRefreshToken(string refreshToken);
     }
 }

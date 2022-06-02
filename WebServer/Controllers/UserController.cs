@@ -45,7 +45,7 @@ namespace WebServer.Controllers
         }
         
         
-        // GET api/<UserController>/5
+        // GET api/<UserController>/GetCurrentUserInfo
         [Authorize]
         [HttpGet]
         public ActionResult<JsonDocument> GetCurrentUserInfo()

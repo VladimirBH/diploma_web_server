@@ -8,6 +8,7 @@ namespace WebServer.DataAccess.Implementations.Entities
     [Table("users")]
     public class User : BaseEntity
     {
+
         [Column("name")]
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
@@ -21,6 +22,7 @@ namespace WebServer.DataAccess.Implementations.Entities
         public string Patronymic { get; set; }
         
         [JsonConverter(typeof(OnlyDateConverter))]
+        [DataType(DataType.Date)]
         [Column("date_birth")]
         [Required(ErrorMessage = "Password is required")]
         public DateTime DateBirth { get; set; }

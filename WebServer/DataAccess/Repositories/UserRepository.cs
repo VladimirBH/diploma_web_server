@@ -41,7 +41,7 @@ namespace WebServer.DataAccess.Repositories
             }
         }
 
-        private int GetUserIdFromRefreshToken(string refreshToken)
+        public int GetUserIdFromRefreshToken(string refreshToken)
         {
             var tokenService = new TokenService(Configuration);
             if (tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))

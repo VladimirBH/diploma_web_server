@@ -7,8 +7,6 @@ using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
 using WebServer.Services;
-using System.Text.Json;
-using Newtonsoft.Json;
 using WebServer.Exceptions;
 
 namespace WebServer.DataAccess.Repositories

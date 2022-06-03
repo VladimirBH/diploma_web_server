@@ -7,6 +7,7 @@ using WebServer.DataAccess.Repositories;
 using WebServer.DataAccess.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WebServer.Classes;
 using WebServer.DataAccess.DBContexts;
 
 namespace WebServer
@@ -19,10 +20,6 @@ namespace WebServer
         {
             
         }
-        /*public Program(IConfiguration configuration) 
-        {
-            this.Configuration = configuration;
-        }*/
 
         public static void Main(string[] args)
         {
@@ -34,22 +31,25 @@ namespace WebServer
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            //builder.Services.AddControllers();
+            builder.Services
+                .AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new DateOnlyConverter()));
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHostedService<GetMetallCostsService>();
             builder.Services.AddDbContext<ApplicationContext>(options =>
             options.UseNpgsql(
                 Configuration["ConnectionStrings:DefaultConnection"],
-                b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
+                /*b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName),*/
+                o => o.UseNodaTime()));
             #region Repositories
             builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IRoleRepository, RoleRepository>();
+
             #endregion
-
-
+            
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

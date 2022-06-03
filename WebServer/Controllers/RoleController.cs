@@ -1,9 +1,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
@@ -29,7 +26,7 @@ public class RoleController
     [HttpGet]
     public ActionResult<JsonDocument> Get()
     {
-        var jsonString = JsonConvert.SerializeObject(_iroleRepository.GetAll());
+        var jsonString = JsonSerializer.Serialize(_iroleRepository.GetAll());
         var json = JsonDocument.Parse(jsonString);
         return json;
     }
@@ -38,18 +35,10 @@ public class RoleController
     [HttpGet("{id}")]
     public ActionResult<JsonDocument> Get(int id)
     {
-        var jsonString = JsonConvert.SerializeObject(_iroleRepository.GetById(id));
+        var jsonString = JsonSerializer.Serialize(_iroleRepository.GetById(id));
         var json = JsonDocument.Parse(jsonString);
         return json;
     }
-
-    // POST api/<UserController>
-    /*[HttpPost]
-    public MetalStructure ProcessingOfMetalComposition(MetalStructure structure)
-    {
-
-        return structure;
-    }*/
 
     [HttpPost]
     public void CreateRole(Role role)

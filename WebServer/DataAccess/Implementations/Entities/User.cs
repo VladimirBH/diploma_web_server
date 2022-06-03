@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
-using WebServer.Classes;
+using NodaTime;
 
 namespace WebServer.DataAccess.Implementations.Entities
 {
@@ -21,10 +20,9 @@ namespace WebServer.DataAccess.Implementations.Entities
         [Required(ErrorMessage = "Patronymic is required")]
         public string Patronymic { get; set; }
         
-        [JsonConverter(typeof(OnlyDateConverter))]
         [DataType(DataType.Date)]
         [Column("date_birth")]
-        [Required(ErrorMessage = "Password is required")]
+        [Required(ErrorMessage = "Date birth is required")]
         public DateTime DateBirth { get; set; }
         
         [Column("login")]

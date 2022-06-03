@@ -2,8 +2,6 @@
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
@@ -29,7 +27,7 @@ namespace WebServer.Controllers
         [HttpGet]
         public ActionResult<JsonDocument> Get()
         {
-            var jsonString = JsonConvert.SerializeObject(_iuserRepository.GetAllWithForeignKey());
+            var jsonString = JsonSerializer.Serialize(_iuserRepository.GetAllWithForeignKey());
             var json = JsonDocument.Parse(jsonString);
             return json;
         }
@@ -39,7 +37,7 @@ namespace WebServer.Controllers
         [HttpGet("{id}")]
         public ActionResult<JsonDocument> Get(int id)
         {
-            var jsonString = JsonConvert.SerializeObject(_iuserRepository.GetById(id));
+            var jsonString = JsonSerializer.Serialize(_iuserRepository.GetById(id));
             var json = JsonDocument.Parse(jsonString);
             return json;
         }
@@ -54,7 +52,7 @@ namespace WebServer.Controllers
             {
                 var httpContext = new HttpContextAccessor();
                 var refreshToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
-                var jsonString = JsonConvert.SerializeObject(_iuserRepository.GetCurrentUserInfo(refreshToken));
+                var jsonString = JsonSerializer.Serialize(_iuserRepository.GetCurrentUserInfo(refreshToken));
                 var json = JsonDocument.Parse(jsonString);
                 return json;
             }
@@ -71,7 +69,7 @@ namespace WebServer.Controllers
         {
             try
             {
-                var jsonString = JsonConvert.SerializeObject(_iuserRepository.Authorization(dataAuth));
+                var jsonString = JsonSerializer.Serialize(_iuserRepository.Authorization(dataAuth));
                 var json = JsonDocument.Parse(jsonString);
                 return json;
             }
@@ -90,7 +88,7 @@ namespace WebServer.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public void Put(User user)
         {
             _iuserRepository.Update(user);

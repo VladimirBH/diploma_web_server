@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebServer.DataAccess.Contracts;
 using System.Text.Json;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WebServer.Exceptions;
 
 namespace WebServer.Controllers;
@@ -28,7 +26,7 @@ public class TokenController : Controller
         var refreshToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
         try
         {
-            var jsonString = JsonConvert.SerializeObject(_iuserRepository.RefreshPairTokens(refreshToken));
+            var jsonString = JsonSerializer.Serialize(_iuserRepository.RefreshPairTokens(refreshToken));
             var json = JsonDocument.Parse(jsonString);
             return json;
         }

@@ -1,31 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NodaTime;
 using WebServer.DataAccess.Implementations.Entities;
 
 namespace WebServer.DataAccess.DBContexts
 {
     public class ApplicationContext : DbContext
     {
-        //private readonly IConfiguration configuration;
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            //Database.EnsureCreated();
-            //this.configuration = _configuration;
         }
         public DbSet<User>? Users { get; set; }
         public DbSet<Role>? Roles { get; set; }
         
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasOne(p => p.Role)
-                .WithMany(b => b.Users);
-        }*/
-        
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql(configuration["ConnectionStrings:DefaultConnection"]);
-            //optionsBuilder.UseNpgsql("Host=db.jlwcfevbewaryulsslre.supabase.co;Port=6543;Database=database;Username=postgres;Password=1977213vovaFifer");
-        }*/
-        
+            var localDateConverter = new ValueConverter<LocalDate, DateTime>(l => l.ToDateTimeUnspecified(),
+                                        d => LocalDate.FromDateTime(d));
+            
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.DateBirth).HasColumnType("date");
+                entity.Property(e => e.CreationDate).HasColumnType("datetime with time zone");
+            });
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.CreationDate).HasColumnType("datetime with time zone");
+            });
+        }
+
     }
 }

@@ -1,10 +1,9 @@
 {
   "version": 2,
-  "dgSpecHash": "5LaPh0RUU3IEykoaZ+b1Pvl+jTfBr6eUn02NqSxTomEKCGVrolh9yHJJryy2xnCf5xqLnV4+gPbZFnkivYMWoQ==",
+  "dgSpecHash": "6pYa9FUEi0to4HzFYsSyAqrndACn1cq09D5q9LePDMa97k6wrfh5dtdOdAg4+rozJlwCabwpsXKs8cfAeFHJXQ==",
   "success": true,
   "projectFilePath": "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\vladi\\.nuget\\packages\\json.net\\1.0.33\\json.net.1.0.33.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -53,9 +52,12 @@
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\vladi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\vladi\\.nuget\\packages\\nodatime\\3.1.0\\nodatime.3.1.0.nupkg.sha512",
+    "C:\\Users\\vladi\\.nuget\\packages\\nodatime.serialization.systemtextjson\\1.0.0\\nodatime.serialization.systemtextjson.1.0.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\npgsql\\6.0.4\\npgsql.6.0.4.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\6.0.4\\npgsql.entityframeworkcore.postgresql.6.0.4.nupkg.sha512",
+    "C:\\Users\\vladi\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql.nodatime\\6.0.4\\npgsql.entityframeworkcore.postgresql.nodatime.6.0.4.nupkg.sha512",
+    "C:\\Users\\vladi\\.nuget\\packages\\npgsql.nodatime\\6.0.4\\npgsql.nodatime.6.0.4.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
@@ -76,6 +78,7 @@
     "C:\\Users\\vladi\\.nuget\\packages\\system.security.permissions\\6.0.0\\system.security.permissions.6.0.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
+    "C:\\Users\\vladi\\.nuget\\packages\\system.text.json\\4.7.1\\system.text.json.4.7.1.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
   "logs": []

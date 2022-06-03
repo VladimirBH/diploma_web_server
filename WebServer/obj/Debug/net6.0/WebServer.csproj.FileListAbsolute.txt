@@ -259,6 +259,9 @@ C:\Users\ICRP8\RiderProjects\diploma_web_server\WebServer\obj\Debug\net6.0\refin
 C:\Users\ICRP8\RiderProjects\diploma_web_server\WebServer\obj\Debug\net6.0\WebServer.pdb
 C:\Users\ICRP8\RiderProjects\diploma_web_server\WebServer\obj\Debug\net6.0\WebServer.genruntimeconfig.cache
 C:\Users\ICRP8\RiderProjects\diploma_web_server\WebServer\obj\Debug\net6.0\ref\WebServer.dll
-D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\Json.Net.dll
-D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\Newtonsoft.Json.dll
 D:\diploma\diploma_web_server\WebServer\obj\Debug\net6.0\refint\WebServer.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\NodaTime.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\NodaTime.Serialization.SystemTextJson.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime.dll
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\Npgsql.NodaTime.dll
+D:\diploma\diploma_web_server\WebServer\obj\Debug\net6.0\EFCoreNpgsqlNodaTime.cs

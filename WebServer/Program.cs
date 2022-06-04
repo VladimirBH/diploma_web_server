@@ -15,12 +15,7 @@ namespace WebServer
     public class Program
     {
         private static IConfiguration Configuration;
-
-        public Program()
-        {
-            
-        }
-
+        
         public static void Main(string[] args)
         {
             var confbuilder = new ConfigurationBuilder()

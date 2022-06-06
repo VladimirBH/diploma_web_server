@@ -14,5 +14,9 @@ namespace WebServer.DataAccess.Implementations.Entities
         [DataType(DataType.DateTime)]
         [Column("creation_date")]
         public Instant CreationDate { get; set; }
+        
+        [DataType(DataType.DateTime)]
+        [Column("updated_date")]
+        public Instant? UpdatedDate { get; set; }
     }
 }

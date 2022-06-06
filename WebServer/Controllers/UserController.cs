@@ -15,34 +15,30 @@ namespace WebServer.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        private readonly IUserRepository _iuserRepository;
-        private ApplicationContext _appContext;
-        public UserController(IUserRepository iuserRepository, ApplicationContext appContext) 
+        private readonly IUserRepository _iUserRepository;
+        public UserController(IUserRepository iUserRepository) 
         {
-            _iuserRepository = iuserRepository;
-            _appContext = appContext;
+            _iUserRepository = iUserRepository;
         }
         
         // GET: api/<UserController>
         [HttpGet]
         public ActionResult<JsonDocument> Get()
         {
-            var jsonString = JsonSerializer.Serialize(_iuserRepository.GetAllWithForeignKey());
+            var jsonString = JsonSerializer.Serialize(_iUserRepository.GetAllWithForeignKey());
             var json = JsonDocument.Parse(jsonString);
             return json;
         }
-
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public ActionResult<JsonDocument> Get(int id)
         {
-            var jsonString = JsonSerializer.Serialize(_iuserRepository.GetById(id));
+            var jsonString = JsonSerializer.Serialize(_iUserRepository.GetById(id));
             var json = JsonDocument.Parse(jsonString);
             return json;
         }
-        
-        
+
         // GET api/<UserController>/GetCurrentUserInfo
         [Authorize]
         [HttpGet]
@@ -52,7 +48,7 @@ namespace WebServer.Controllers
             {
                 var httpContext = new HttpContextAccessor();
                 var refreshToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
-                var jsonString = JsonSerializer.Serialize(_iuserRepository.GetCurrentUserInfo(refreshToken));
+                var jsonString = JsonSerializer.Serialize(_iUserRepository.GetCurrentUserInfo(refreshToken));
                 var json = JsonDocument.Parse(jsonString);
                 return json;
             }
@@ -69,7 +65,7 @@ namespace WebServer.Controllers
         {
             try
             {
-                var jsonString = JsonSerializer.Serialize(_iuserRepository.Authorization(dataAuth));
+                var jsonString = JsonSerializer.Serialize(_iUserRepository.Authorization(dataAuth));
                 var json = JsonDocument.Parse(jsonString);
                 return json;
             }
@@ -83,25 +79,25 @@ namespace WebServer.Controllers
         [HttpPost]
         public void CreateUser(User user)
         {
-            _iuserRepository.Add(user);
-            _iuserRepository.SaveChanges();
+            _iUserRepository.Add(user);
+            _iUserRepository.SaveChanges();
         }
 
         // PUT api/<UserController>/5
         [HttpPut]
         public void Put(User user)
         {
-            _iuserRepository.Update(user);
-            _iuserRepository.SaveChanges();
+            _iUserRepository.Update(user);
+            _iUserRepository.SaveChanges();
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var user = _iuserRepository.GetById(id);
-            _iuserRepository.Remove(user);
-            _iuserRepository.SaveChanges();
+            var user = _iUserRepository.GetById(id);
+            _iUserRepository.Remove(user);
+            _iUserRepository.SaveChanges();
         }
     }
 }

@@ -42,6 +42,8 @@ namespace WebServer
             builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IRoleRepository, RoleRepository>();
+            builder.Services.AddTransient<IFurnaceRepository, FurnaceRepository>();
+            builder.Services.AddTransient<ICalculationHistoryRepository, CalculationHistoryRepository>();
 
             #endregion
             

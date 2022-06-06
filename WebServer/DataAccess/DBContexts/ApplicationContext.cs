@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodaTime;
+using WebServer.Classes;
 using WebServer.DataAccess.Implementations.Entities;
 
 namespace WebServer.DataAccess.DBContexts
@@ -12,20 +13,31 @@ namespace WebServer.DataAccess.DBContexts
         }
         public DbSet<User>? Users { get; set; }
         public DbSet<Role>? Roles { get; set; }
+        public DbSet<Furnace>? Furnaces { get; set; }
+        public DbSet<CalculationHistory>? CalculationHistories { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var localDateConverter = new ValueConverter<LocalDate, DateTime>(l => l.ToDateTimeUnspecified(),
-                                        d => LocalDate.FromDateTime(d));
-            
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.DateBirth).HasColumnType("date");
                 entity.Property(e => e.CreationDate).HasColumnType("datetime with time zone");
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime with time zone");
             });
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.CreationDate).HasColumnType("datetime with time zone");
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime with time zone");
+            });
+            modelBuilder.Entity<Furnace>(entity =>
+            {
+                entity.Property(e => e.CreationDate).HasColumnType("datetime with time zone");
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime with time zone");
+            });
+            modelBuilder.Entity<CalculationHistory>(entity =>
+            {
+                entity.Property(e => e.CreationDate).HasColumnType("datetime with time zone");
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime with time zone");
             });
         }
 

@@ -18,53 +18,46 @@ namespace WebServer.DataAccess.Repositories
         }
         public TokenPair Authorization(AuthClass dataAuth)
         {
-            var user = GetByLogin(dataAuth.login, dataAuth.password);
-            if (user != null)
+            var user = GetByLogin(dataAuth.login);
+            if (user == null) throw new UserException("Unforbidden");
+            if (!BCrypt.Net.BCrypt.Verify(dataAuth.password, user.Password)) throw new UserException("Unforbidden");
+            var tokenService = new TokenService(Configuration);
+            var tokenPair = new TokenPair
             {
-                var tokenService = new TokenService(Configuration);
-                var tokenPair = new TokenPair
-                {
-                    AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
-                    RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
-                    ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
-                    ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]),
-                    IdRole = user.RoleId,
-                    CreationDateTime = DateTime.Now
-                };
-                return tokenPair;
-            }
-            else
-            {
-                throw new UserException("Unforbidden");
-            }
+                AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"],
+                    Configuration["JWT:Issuer"], user),
+                RefreshToken = tokenService.BuildRefreshToken(Configuration["JWT:Key"],
+                    Configuration["JWT:Issuer"], user),
+                ExpiredInAccessToken = int.Parse(Configuration["JWT:AccessTokenLifeTime"]),
+                ExpiredInRefreshToken = int.Parse(Configuration["JWT:RefreshTokenLifeTime"]),
+                IdRole = user.RoleId,
+                CreationDateTime = DateTime.Now
+            };
+            return tokenPair;
         }
 
         public int GetUserIdFromRefreshToken(string refreshToken)
         {
             var tokenService = new TokenService(Configuration);
-            if (tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
-            {
-                var handler = new JwtSecurityTokenHandler();
-                var jsonToken = handler.ReadJwtToken(refreshToken);
-                var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
-                if (id == null)
-                {
-                    throw new UserException("Unauthorized");
-                }
-
-                return int.Parse(id);
-            }
-            else
+            if (!tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
+                throw new UserException("Unauthorized");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadJwtToken(refreshToken);
+            var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+            if (id == null)
             {
                 throw new UserException("Unauthorized");
             }
+
+            return int.Parse(id);
+
         }
 
         public TokenPair RefreshPairTokens(string refreshToken)
         {
             var tokenService = new TokenService(Configuration);
             var user = GetById(GetUserIdFromRefreshToken(refreshToken));
-            user = GetByLogin(user.Login, user.Password);
+            user = GetByLogin(user.Login);
             var tokenPair = new TokenPair
             {
                 AccessToken = tokenService.BuildAccessToken(Configuration["JWT:Key"], Configuration["JWT:Issuer"], user),
@@ -83,9 +76,9 @@ namespace WebServer.DataAccess.Repositories
         }
 
 
-        private User GetByLogin(string login, string password)
+        private User GetByLogin(string login)
         {
-            return Context.Users.Include(r => r.Role).FirstOrDefault(u => (u.Login == login) && (u.Password == password));
+            return Context.Users.Include(r => r.Role).FirstOrDefault(u => (u.Login == login));
         }
 
         public User GetCurrentUserInfo(string refreshToken)

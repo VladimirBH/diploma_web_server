@@ -265,3 +265,4 @@ D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\NodaTime.Serialization.
 D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime.dll
 D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\Npgsql.NodaTime.dll
 D:\diploma\diploma_web_server\WebServer\obj\Debug\net6.0\EFCoreNpgsqlNodaTime.cs
+D:\diploma\diploma_web_server\WebServer\bin\Debug\net6.0\BCrypt.Net-Next.dll

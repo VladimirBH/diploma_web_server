@@ -13,20 +13,18 @@ namespace WebServer.Controllers;
 [ApiController]
 public class RoleController
 {
-    private readonly IRoleRepository _iroleRepository;
-    private ApplicationContext _appContext;
+    private readonly IRoleRepository _iRoleRepository;
 
-    public RoleController(IRoleRepository iroleRepository, ApplicationContext appContext)
+    public RoleController(IRoleRepository iRoleRepository)
     {
-        _iroleRepository = iroleRepository;
-        _appContext = appContext;
+        _iRoleRepository = iRoleRepository;
     }
 
     // GET: api/<UserController>
     [HttpGet]
     public ActionResult<JsonDocument> Get()
     {
-        var jsonString = JsonSerializer.Serialize(_iroleRepository.GetAll());
+        var jsonString = JsonSerializer.Serialize(_iRoleRepository.GetAll());
         var json = JsonDocument.Parse(jsonString);
         return json;
     }
@@ -35,7 +33,7 @@ public class RoleController
     [HttpGet("{id}")]
     public ActionResult<JsonDocument> Get(int id)
     {
-        var jsonString = JsonSerializer.Serialize(_iroleRepository.GetById(id));
+        var jsonString = JsonSerializer.Serialize(_iRoleRepository.GetById(id));
         var json = JsonDocument.Parse(jsonString);
         return json;
     }
@@ -43,23 +41,23 @@ public class RoleController
     [HttpPost]
     public void CreateRole(Role role)
     {
-        _iroleRepository.Add(role);
+        _iRoleRepository.Add(role);
     }
 
     // PUT api/<UserController>/5
     [HttpPut("{id}")]
     public void Put(Role role)
     {
-        _iroleRepository.Update(role);
-        _iroleRepository.SaveChanges();
+        _iRoleRepository.Update(role);
+        _iRoleRepository.SaveChanges();
     }
 
     // DELETE api/<UserController>/5
     [HttpDelete("{id}")]
     public void Delete(int id)
     {
-        _iroleRepository.Remove(_iroleRepository.GetById(id));
-        _iroleRepository.SaveChanges();
+        _iRoleRepository.Remove(_iRoleRepository.GetById(id));
+        _iRoleRepository.SaveChanges();
     }
 
 }

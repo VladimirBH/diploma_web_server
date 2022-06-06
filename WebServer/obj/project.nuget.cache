@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "6pYa9FUEi0to4HzFYsSyAqrndACn1cq09D5q9LePDMa97k6wrfh5dtdOdAg4+rozJlwCabwpsXKs8cfAeFHJXQ==",
+  "dgSpecHash": "McNxGS8mzjiOzPRrRNvjExdm72Qdln7shEuZ4t6RuceClP2mV6p7GcyuXvaSlOP09oWWSnopyyJj04oBQeR0Zg==",
   "success": true,
   "projectFilePath": "D:\\diploma\\diploma_web_server\\WebServer\\WebServer.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\vladi\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\vladi\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",

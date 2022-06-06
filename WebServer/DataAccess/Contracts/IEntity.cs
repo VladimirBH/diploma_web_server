@@ -6,7 +6,7 @@ namespace WebServer.DataAccess.Contracts
     {
         int Id { get; set; }
 
-        Instant CreationDate { get; set; }
-        Instant? UpdatedDate { get; set; }
+        DateTimeOffset CreationDate { get; set; }
+        DateTimeOffset? UpdatedDate { get; set; }
     }
 }

@@ -13,10 +13,10 @@ namespace WebServer.DataAccess.Implementations.Entities
         
         [DataType(DataType.DateTime)]
         [Column("creation_date")]
-        public Instant CreationDate { get; set; }
+        public DateTimeOffset CreationDate { get; set; }
         
         [DataType(DataType.DateTime)]
         [Column("updated_date")]
-        public Instant? UpdatedDate { get; set; }
+        public DateTimeOffset? UpdatedDate { get; set; }
     }
 }

@@ -22,7 +22,7 @@ public class CalculationHistoryController : Controller
     [HttpGet]
     public ActionResult<JsonDocument> Get()
     {
-        var jsonString = JsonSerializer.Serialize(_iCalculationHistoryRepository.GetAll());
+        var jsonString = JsonSerializer.Serialize(_iCalculationHistoryRepository.GetAllWithForeignKey());
         var json = JsonDocument.Parse(jsonString);
         return json;
     }

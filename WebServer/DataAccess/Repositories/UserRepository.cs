@@ -52,6 +52,24 @@ namespace WebServer.DataAccess.Repositories
             return int.Parse(id);
 
         }
+        
+        public int GetUserIdFromAccessToken(string accessToken)
+        {
+            var tokenService = new TokenService(Configuration);
+            if (!tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], accessToken))
+                throw new UserException("Unauthorized");
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadJwtToken(accessToken);
+            var login = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+            if (login == null)
+            {
+                throw new UserException("Unauthorized");
+            }
+
+            return GetByLogin(login).Id;
+
+        }
+
 
         public TokenPair RefreshPairTokens(string refreshToken)
         {
@@ -81,10 +99,10 @@ namespace WebServer.DataAccess.Repositories
             return Context.Users.Include(r => r.Role).FirstOrDefault(u => (u.Login == login));
         }
 
-        public User GetCurrentUserInfo(string refreshToken)
+        public User GetCurrentUserInfo(string accessToken)
         {
             return Context.Users.Include(r => r.Role)
-                .FirstOrDefault(u => u.Id == GetUserIdFromRefreshToken(refreshToken));
+                .FirstOrDefault(u => u.Id == GetUserIdFromAccessToken(accessToken));
         }
     }
 }

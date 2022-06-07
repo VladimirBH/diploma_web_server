@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
@@ -34,5 +35,13 @@ public class CalculationHistoryController : Controller
         var jsonString = JsonSerializer.Serialize(_iCalculationHistoryRepository.GetById(id));
         var json = JsonDocument.Parse(jsonString);
         return json;
+    }
+    
+    [HttpPost]
+    public void Create(CalculationHistory calculationHistory)
+    {
+        
+        _iCalculationHistoryRepository.Add(calculationHistory);
+        _iCalculationHistoryRepository.SaveChanges();
     }
 }

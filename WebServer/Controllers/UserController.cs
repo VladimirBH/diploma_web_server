@@ -47,8 +47,8 @@ namespace WebServer.Controllers
             try
             {
                 var httpContext = new HttpContextAccessor();
-                var refreshToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
-                var jsonString = JsonSerializer.Serialize(_iUserRepository.GetCurrentUserInfo(refreshToken));
+                var accessToken =  httpContext.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
+                var jsonString = JsonSerializer.Serialize(_iUserRepository.GetCurrentUserInfo(accessToken));
                 var json = JsonDocument.Parse(jsonString);
                 return json;
             }

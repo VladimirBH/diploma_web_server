@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Security.Authentication;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,8 +7,6 @@ using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
-using WebServer.Exceptions;
-
 namespace WebServer.Controllers
 {
     [Authorize (Roles = "admin")]
@@ -25,18 +24,32 @@ namespace WebServer.Controllers
         [HttpGet]
         public ActionResult<JsonDocument> Get()
         {
-            var jsonString = JsonSerializer.Serialize(_iUserRepository.GetAllWithForeignKey());
-            var json = JsonDocument.Parse(jsonString);
-            return json;
+            try
+            {
+                var jsonString = JsonSerializer.Serialize(_iUserRepository.GetAllWithForeignKey());
+                var json = JsonDocument.Parse(jsonString);
+                return json;
+            }
+            catch (AuthenticationException ex)
+            {
+                return StatusCode(401);
+            }
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public ActionResult<JsonDocument> Get(int id)
         {
-            var jsonString = JsonSerializer.Serialize(_iUserRepository.GetById(id));
-            var json = JsonDocument.Parse(jsonString);
-            return json;
+            try
+            {
+                var jsonString = JsonSerializer.Serialize(_iUserRepository.GetById(id));
+                var json = JsonDocument.Parse(jsonString);
+                return json;
+            }
+            catch (AuthenticationException ex)
+            {
+                return StatusCode(401);
+            }
         }
 
         // GET api/<UserController>/GetCurrentUserInfo
@@ -52,7 +65,7 @@ namespace WebServer.Controllers
                 var json = JsonDocument.Parse(jsonString);
                 return json;
             }
-            catch (UserException ex)
+            catch (AuthenticationException ex)
             {
                 return StatusCode(401);
             }
@@ -69,7 +82,7 @@ namespace WebServer.Controllers
                 var json = JsonDocument.Parse(jsonString);
                 return json;
             }
-            catch (UserException ex)
+            catch (AuthenticationException ex)
             {
                 return StatusCode(403);
             }

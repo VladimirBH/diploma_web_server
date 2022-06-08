@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -7,7 +8,6 @@ using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
 using WebServer.Services;
-using WebServer.Exceptions;
 
 namespace WebServer.DataAccess.Repositories
 {
@@ -19,8 +19,8 @@ namespace WebServer.DataAccess.Repositories
         public TokenPair Authorization(AuthClass dataAuth)
         {
             var user = GetByLogin(dataAuth.login);
-            if (user == null) throw new UserException("Unforbidden");
-            if (!BCrypt.Net.BCrypt.Verify(dataAuth.password, user.Password)) throw new UserException("Unforbidden");
+            if (user == null) throw new AuthenticationException();
+            if (!BCrypt.Net.BCrypt.Verify(dataAuth.password, user.Password)) throw new AuthenticationException();
             var tokenService = new TokenService(Configuration);
             var tokenPair = new TokenPair
             {
@@ -40,13 +40,13 @@ namespace WebServer.DataAccess.Repositories
         {
             var tokenService = new TokenService(Configuration);
             if (!tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], refreshToken))
-                throw new UserException("Unauthorized");
+                throw new AuthenticationException();
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadJwtToken(refreshToken);
             var id = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
             if (id == null)
             {
-                throw new UserException("Unauthorized");
+                throw new AuthenticationException();
             }
 
             return int.Parse(id);
@@ -57,13 +57,13 @@ namespace WebServer.DataAccess.Repositories
         {
             var tokenService = new TokenService(Configuration);
             if (!tokenService.IsTokenValid(Configuration["JWT:Key"], Configuration["JWT:Issuer"], accessToken))
-                throw new UserException("Unauthorized");
+                throw new AuthenticationException();
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadJwtToken(accessToken);
             var login = jsonToken?.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
             if (login == null)
             {
-                throw new UserException("Unauthorized");
+                throw new AuthenticationException();
             }
 
             return GetByLogin(login).Id;

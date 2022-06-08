@@ -1,10 +1,10 @@
 using System.Net;
+using System.Security.Authentication;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebServer.DataAccess.Contracts;
 using System.Text.Json;
-using WebServer.Exceptions;
 
 namespace WebServer.Controllers;
 
@@ -30,7 +30,7 @@ public class TokenController : Controller
             var json = JsonDocument.Parse(jsonString);
             return json;
         }
-        catch (UserException ex)
+        catch (AuthenticationException ex)
         {
             return StatusCode(403);
         }

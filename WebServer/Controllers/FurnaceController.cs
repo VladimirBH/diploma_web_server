@@ -5,7 +5,6 @@ using WebServer.Classes;
 using WebServer.DataAccess.Contracts;
 using WebServer.DataAccess.DBContexts;
 using WebServer.DataAccess.Implementations.Entities;
-using WebServer.Exceptions;
 
 namespace WebServer.Controllers;
 

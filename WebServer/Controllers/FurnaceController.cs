@@ -8,7 +8,7 @@ using WebServer.DataAccess.Implementations.Entities;
 
 namespace WebServer.Controllers;
 
-[Authorize (Roles = "admin")]
+[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class FurnaceController : Controller
@@ -20,6 +20,7 @@ public class FurnaceController : Controller
             _iFurnaceRepository = iFurnaceRepository;
         }
         
+
         [HttpGet]
         public ActionResult<JsonDocument> Get()
         {
@@ -28,7 +29,7 @@ public class FurnaceController : Controller
             return json;
         }
 
-
+        [Authorize (Roles = "admin")]
         [HttpGet("{id}")]
         public ActionResult<JsonDocument> Get(int id)
         {
@@ -39,6 +40,7 @@ public class FurnaceController : Controller
         
         
         // POST api/<UserController>/CreateUser
+        [Authorize (Roles = "admin")]
         [HttpPost]
         public void Create(Furnace furnace)
         {
@@ -47,6 +49,7 @@ public class FurnaceController : Controller
         }
 
         // PUT api/<UserController>/5
+        [Authorize (Roles = "admin")]
         [HttpPut]
         public void Update(Furnace furnace)
         {
@@ -55,6 +58,7 @@ public class FurnaceController : Controller
         }
 
         // DELETE api/<UserController>/5
+        [Authorize (Roles = "admin")]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

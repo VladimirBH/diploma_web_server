@@ -8,7 +8,7 @@ using WebServer.DataAccess.Implementations.Entities;
 
 namespace WebServer.Controllers;
 
-[Authorize (Roles = "admin")]
+[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class CalculationHistoryController : Controller
@@ -19,7 +19,8 @@ public class CalculationHistoryController : Controller
     {
         _iCalculationHistoryRepository = iCalculationHistoryRepository;
     }
-        
+    
+    [Authorize (Roles = "admin")]
     [HttpGet]
     public ActionResult<JsonDocument> Get()
     {
@@ -28,7 +29,7 @@ public class CalculationHistoryController : Controller
         return json;
     }
 
-
+    [Authorize (Roles = "admin")]
     [HttpGet("{id}")]
     public ActionResult<JsonDocument> Get(int id)
     {
@@ -37,10 +38,10 @@ public class CalculationHistoryController : Controller
         return json;
     }
     
+ 
     [HttpPost]
     public void Create(CalculationHistory calculationHistory)
     {
-        
         _iCalculationHistoryRepository.Add(calculationHistory);
         _iCalculationHistoryRepository.SaveChanges();
     }
